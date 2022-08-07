@@ -6,6 +6,10 @@ import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
 
+(BigInt.prototype as any).toJSON = function () {
+    return this.toString();
+};
+
 export const bot = new Client({
     botGuilds: [client => client.guilds.cache.map(guild => guild.id)],
 
