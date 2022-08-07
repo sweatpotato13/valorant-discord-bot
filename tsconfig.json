@@ -1,31 +1,18 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "outDir": "build",
+    "rootDir": "src",
     "strict": true,
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "esModuleInterop": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@src/*": [
-        "./src/*"
-      ],
-      "@services": [
-        "src/Services/*"
-      ],
-      "@interfaces": [
-        "src/Interfaces/*"
-      ],
-    }
-  }
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["build", "node_modules"]
 }

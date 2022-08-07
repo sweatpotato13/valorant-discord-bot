@@ -1,25 +1,25 @@
 {
-    "name": "nodejs-typescript-boilerplate",
-    "version": "1.0.1",
-    "description": "nodejs-typescript-boilerplate",
+    "name": "valorant-discord-bot",
+    "version": "1.0.0",
+    "description": "valorant-discord-bot",
     "main": "./dist/src/index.js",
-    "types": "./dist/src/index.d.ts",
+    "type": "module",
     "repository": {
         "type": "git",
-        "url": "https://github.com/sweatpotato13/nodejs-typescript-boilerplate.git"
+        "url": "https://github.com/sweatpotato13/valorant-discord-bot.git"
     },
     "bugs": {
-        "url": "https://github.com/sweatpotato13/nodejs-typescript-boilerplate/issues"
+        "url": "https://github.com/sweatpotato13/valorant-discord-bot/issues"
     },
-    "homepage": "https://github.com/sweatpotato13/nodejs-typescript-boilerplate",
+    "homepage": "https://github.com/sweatpotato13/valorant-discord-bot",
     "files": [
         "dist"
     ],
     "scripts": {
         "test": "jest",
         "test:cov": "jest --coverage",
-        "start:dev": "ts-node-dev --poll --respawn --transpile-only src/index.ts --trace-sync-io",
-        "start:prod": "ts-node src/index.ts",
+        "start:dev": "node --loader ts-node/esm/transpile-only src/main.ts",
+        "start:prod": "nodemon --exec node --loader ts-node/esm/transpile-only src/main.ts",
         "lint": "eslint \"{src,test}/**/*.ts\" --fix",
         "prettier": "prettier --write --config .prettierrc \"{src,test}/**/*.ts\"",
         "build": "tsc",
@@ -40,9 +40,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged",
-            "prepare-commit-msg": "devmoji -e",
-            "commit-msg": "if git-branch-is dev; then commitlint -E HUSKY_GIT_PARAMS; fi"
+            "pre-commit": "lint-staged"
         }
     },
     "author": "Cute_Wisp <sweatpotato13@gmail.com>",
@@ -51,10 +49,9 @@
         "@commitlint/cli": "^16.1.0",
         "@commitlint/config-conventional": "^16.0.0",
         "@types/jest": "27.4.0",
-        "@types/node": "^17.0.17",
+        "@types/node": "^18.0.6",
         "@typescript-eslint/eslint-plugin": "^5.11.0",
         "@typescript-eslint/parser": "^5.11.0",
-        "devmoji": "^2.3.0",
         "dot-json": "^1.2.2",
         "eslint": "^8.8.0",
         "eslint-config-prettier": "^8.3.0",
@@ -67,10 +64,12 @@
         "husky": "7.0.4",
         "jest": "27.5.1",
         "lint-staged": "^12.3.3",
+        "nodemon": "^2.0.19",
         "prettier": "^2.5.1",
         "rimraf": "^3.0.2",
         "standard-version": "^9.3.2",
         "ts-jest": "27.1.3",
+        "ts-node": "^10.9.1",
         "ts-node-dev": "^1.1.8",
         "typescript": "^4.5.5"
     },
@@ -81,5 +80,13 @@
             "/dist/"
         ]
     },
-    "packageManager": "yarn@3.1.1"
+    "packageManager": "yarn@3.1.1",
+    "dependencies": {
+        "@discordx/importer": "^1.1.10",
+        "@discordx/pagination": "^3.0.0",
+        "discord.js": "^14.0.2",
+        "discordx": "^10.0.0",
+        "dotenv": "^16.0.1",
+        "reflect-metadata": "^0.1.13"
+    }
 }
