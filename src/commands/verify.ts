@@ -1,17 +1,145 @@
+import axios from "axios";
 import type { CommandInteraction, Message } from "discord.js";
 import {
   Discord,
   Slash,
+  SlashOption,
 } from "discordx";
+import { Agent } from "https";
 
 @Discord()
 export class Verify {
   @Slash("verify", { description: "validate two-factor authentication." })
-  slashLikeIt(command: CommandInteraction): void {
-    this.verify(command);
+  slashVerify(
+    @SlashOption("code", { description: "2FA Authentication Code" })
+    code: string,
+    @SlashOption("cookie", { description: "2FA Authentication Code" })
+    cookie: string,
+    command: CommandInteraction): void {
+    this.verify(code, cookie, command);
   }
 
-  verify(command: CommandInteraction | Message): void {
-    command.reply("I like it, Thanks");
+  async verify(code: string, cookie: string, command: CommandInteraction | Message): Promise<void> {
+    let asidCookie;
+    let response;
+
+    const response2fa: any = await send2faCode(cookie, code)
+      .catch(err => {
+        if (typeof err.response.data === 'undefined')
+          throw new ValReauthScriptError('unknown error', err.response);
+        if (err.response.data.error === 'rate_limited')
+          throw new ValReauthScriptError('too many 2fa requests');
+        throw new ValReauthScriptError('unknown error', err.response.data);
+      });
+
+    asidCookie = response2fa.headers['set-cookie'].find((cookie: string) => /^asid/.test(cookie));
+
+    if (response2fa.data.type === 'response') {
+      response = response2fa;
+    }
+    // check response
+    if (typeof response2fa.data.error !== 'undefined') {
+      if (response2fa.data.error === 'multifactor_attempt_failed')
+        throw new ValReauthScriptError('too many 2fa requests');
+      if (response2fa.data.error === 'rate_limited')
+        throw new ValReauthScriptError('too many 2fa requests');
+      throw new ValReauthScriptError('unknown error', response2fa.data);
+    }
+
+    // extract tokens from the url
+    let tokens: any = parseUrl(response.data.response.parameters.uri);
+
+    tokens.entitlementsToken =
+      (await fetchEntitlements(tokens.accessToken)).data.entitlements_token;
+
+    // parse access token and extract puuid
+    const puuid = JSON.parse(Buffer.from(
+      tokens.accessToken.split('.')[1], 'base64').toString()).sub;
+
+    // fetch pas token - not required, instead we only want the region
+    // since we already fetched it let's save it, because why not
+    const pasTokenResponse: any = await fetchPas(tokens.accessToken, tokens.idToken);
+    tokens.pasToken = pasTokenResponse.data.token;
+
+    let region = pasTokenResponse.data.affinities.live;
+
+    command.reply(`Verify Done: ${puuid}, ${region} ${JSON.stringify(tokens)}`);
+
+  }
+}
+
+const ciphers = [
+  'TLS_CHACHA20_POLY1305_SHA256',
+  'TLS_AES_128_GCM_SHA256',
+  'TLS_AES_256_GCM_SHA384',
+  'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256'
+];
+
+const agent = new Agent({
+  ciphers: ciphers.join(':'),
+  honorCipherOrder: true,
+  minVersion: 'TLSv1.2'
+});
+
+async function send2faCode(cookie: string, code: string, rememberDevice = true) {
+  return await axios({
+    url: 'https://auth.riotgames.com/api/v1/authorization',
+    method: 'PUT',
+    headers: {
+      Cookie: cookie,
+      'User-Agent': 'RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)'
+    },
+    data: {
+      type: 'multifactor',
+      code,
+      rememberDevice
+    },
+    httpsAgent: agent
+  });
+}
+
+// parses the response url and returns the values we want
+function parseUrl(uri: string) {
+  const loginResponseURI: any = new URL(uri);
+  const accessToken = loginResponseURI.searchParams.get('access_token');
+  const idToken = loginResponseURI.searchParams.get('id_token')
+  const expiresIn = parseInt(
+    loginResponseURI.searchParams.get('expires_in'));
+
+  return { accessToken, idToken, expiresIn };
+}
+
+// pas token can be used for getting the account
+// region automatically
+async function fetchPas(accessToken: string, idToken: string) {
+  return await axios({
+    url: 'https://riot-geo.pas.si.riotgames.com/pas/v1/product/valorant',
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    },
+    data: {
+      id_token: idToken
+    }
+  });
+}
+
+async function fetchEntitlements(accessToken: string) {
+  return await axios({
+    url: 'https://entitlements.auth.riotgames.com/api/token/v1',
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    },
+    data: {}
+  });
+}
+
+class ValReauthScriptError extends Error {
+  data;
+
+  constructor(message: string, data?: any) {
+    super(message);
+    this.data = data;
   }
 }
