@@ -2,7 +2,7 @@
     "name": "valorant-discord-bot",
     "version": "1.0.0",
     "description": "valorant-discord-bot",
-    "main": "./dist/src/index.js",
+    "main": "./build/src/index.js",
     "type": "module",
     "repository": {
         "type": "git",
@@ -13,17 +13,17 @@
     },
     "homepage": "https://github.com/sweatpotato13/valorant-discord-bot",
     "files": [
-        "dist"
+        "build"
     ],
     "scripts": {
         "test": "jest",
         "test:cov": "jest --coverage",
-        "start:dev": "node --loader ts-node/esm/transpile-only src/main.ts",
-        "start:prod": "nodemon --exec node --loader ts-node/esm/transpile-only src/main.ts",
+        "start:prod": "node --loader ts-node/esm/transpile-only src/main.ts",
+        "start:dev": "nodemon --exec node --loader ts-node/esm/transpile-only src/main.ts",
         "lint": "eslint \"{src,test}/**/*.ts\" --fix",
         "prettier": "prettier --write --config .prettierrc \"{src,test}/**/*.ts\"",
         "build": "tsc",
-        "prebuild": "rimraf ./dist",
+        "prebuild": "rimraf ./build",
         "release": "standard-version",
         "release:major": "standard-version -- --release-as major",
         "release:minor": "standard-version -- --release-as minor",
@@ -84,9 +84,14 @@
     "dependencies": {
         "@discordx/importer": "^1.1.10",
         "@discordx/pagination": "^3.0.0",
+        "axios": "^0.27.2",
         "discord.js": "^14.0.2",
         "discordx": "^10.0.0",
         "dotenv": "^16.0.1",
-        "reflect-metadata": "^0.1.13"
+        "fs": "^0.0.1-security",
+        "https": "^1.0.0",
+        "reflect-metadata": "^0.1.13",
+        "socks-proxy-agent": "^7.0.0",
+        "unofficial-valorant-api": "^2.2.1-stable.3"
     }
 }
