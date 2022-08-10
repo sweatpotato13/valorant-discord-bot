@@ -2,7 +2,7 @@ version: "3"
 services:
     postgres:
         image: postgres:13
-        container_name: postgres
+        container_name: postgres_dev
         restart: always
         environment:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -12,8 +12,8 @@ services:
         ports:
             - ${POSTGRES_PORT}:5432
     graphql-engine:
-        image: hasura/graphql-engine:v2.0.9
-        container_name: hasura
+        image: hasura/graphql-engine:latest
+        container_name: hasura_dev
         restart: always
         ports:
             - ${HASURA_PORT}:8080
