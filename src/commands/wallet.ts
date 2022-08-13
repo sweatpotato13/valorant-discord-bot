@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { CommandInteraction, Message } from "discord.js";
 import {
   Discord,
@@ -12,6 +13,17 @@ export class Wallet {
   }
 
   wallet(command: CommandInteraction | Message): void {
-    command.reply("I like it, Thanks");
+    getWallet("AP", "");
   }
+}
+
+async function getWallet(region: string, puuid: string) {
+  return await axios({
+    url: `https://pd.${region}.a.pvp.net/store/v1/wallet/${puuid}`,
+    method: 'GET',
+    headers: {
+      'X-Riot-Entitlements-JWT': 'RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)',
+      'Authorization': 'Authorization'
+    }
+  });
 }

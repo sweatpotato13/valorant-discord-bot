@@ -46,8 +46,11 @@ export class Verify {
       throw new ValReauthScriptError('unknown error', response2fa.data);
     }
 
+    // extract ssid cookie
+    const ssidCookie = response.headers['set-cookie'].find((cookie: string) => /^ssid/.test(cookie));
+
     // extract tokens from the url
-    let tokens: any = parseUrl(response.data.response.parameters.uri);
+    const tokens: any = parseUrl(response.data.response.parameters.uri);
 
     tokens.entitlementsToken =
       (await fetchEntitlements(tokens.accessToken)).data.entitlements_token;
@@ -58,13 +61,34 @@ export class Verify {
 
     // fetch pas token - not required, instead we only want the region
     // since we already fetched it let's save it, because why not
-    const pasTokenResponse: any = await fetchPas(tokens.accessToken, tokens.idToken);
+    const pasTokenResponse = await fetchPas(tokens.accessToken, tokens.idToken);
     tokens.pasToken = pasTokenResponse.data.token;
 
-    let region = pasTokenResponse.data.affinities.live;
+    const region = pasTokenResponse.data.affinities.live;
 
-    command.reply(`Verify Done: ${puuid}, ${region} ${JSON.stringify(tokens)}`);
+    const clientVersion = (await fetchValorantVersion()).data.data.riotClientVersion;
 
+    command.reply(`Verify Done`);
+    const headers = makeHeaders(tokens, clientVersion, clientPlatform);
+    console.log(`${puuid}, ${region}`);
+    console.log(headers);
+}
+}
+
+const clientPlatform = {
+  platformType: "PC",
+  platformOS: "Windows",
+  platformOSVersion: "10.0.19043.1.256.64bit",
+  platformChipset: "Unknown"
+};
+
+function makeHeaders(tokens: any, clientVersion: any, clientPlatform: any) {
+  return {
+    Authorization: `Bearer ${tokens.accessToken}`,
+    'X-Riot-Entitlements-JWT': tokens.entitlementsToken,
+    'X-Riot-ClientVersion': clientVersion,
+    'X-Riot-ClientPlatform': Buffer.from(
+      JSON.stringify(clientPlatform)).toString('base64'),
   }
 }
 
@@ -132,6 +156,13 @@ async function fetchEntitlements(accessToken: string) {
       Authorization: `Bearer ${accessToken}`
     },
     data: {}
+  });
+}
+
+async function fetchValorantVersion() {
+  return await axios({
+    url: 'https://valorant-api.com/v1/version',
+    method: 'GET'
   });
 }
 

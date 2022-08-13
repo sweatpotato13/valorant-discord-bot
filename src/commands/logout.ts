@@ -12,6 +12,6 @@ export class Logout {
   }
 
   logout(command: CommandInteraction | Message): void {
-    command.reply("I like it, Thanks");
+    command.reply("Logout Complete");
   }
 }
