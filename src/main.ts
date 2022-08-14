@@ -5,7 +5,7 @@ import { dirname, importx } from "@discordx/importer";
 import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
-import { postgresConfig } from "./config/typeorm/index";
+// import { postgresConfig } from "./config/typeorm/index";
 
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
