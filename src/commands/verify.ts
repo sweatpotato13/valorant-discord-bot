@@ -20,59 +20,63 @@ export class Verify {
   }
 
   async verify(code: string, cookie: string, command: CommandInteraction | Message): Promise<void> {
-    let asidCookie;
-    let response;
+    try {
+      let asidCookie;
+      let response;
 
-    const response2fa: any = await send2faCode(cookie, code)
-      .catch(err => {
-        if (typeof err.response.data === 'undefined')
-          throw new ValReauthScriptError('unknown error', err.response);
-        if (err.response.data.error === 'rate_limited')
+      const response2fa: any = await send2faCode(cookie, code)
+        .catch(err => {
+          if (typeof err.response.data === 'undefined')
+            throw new ValReauthScriptError('unknown error', err.response);
+          if (err.response.data.error === 'rate_limited')
+            throw new ValReauthScriptError('too many 2fa requests');
+          throw new ValReauthScriptError('unknown error', err.response.data);
+        });
+
+      asidCookie = response2fa.headers['set-cookie'].find((cookie: string) => /^asid/.test(cookie));
+
+      if (response2fa.data.type === 'response') {
+        response = response2fa;
+      }
+      // check response
+      if (typeof response2fa.data.error !== 'undefined') {
+        if (response2fa.data.error === 'multifactor_attempt_failed')
           throw new ValReauthScriptError('too many 2fa requests');
-        throw new ValReauthScriptError('unknown error', err.response.data);
-      });
+        if (response2fa.data.error === 'rate_limited')
+          throw new ValReauthScriptError('too many 2fa requests');
+        throw new ValReauthScriptError('unknown error', response2fa.data);
+      }
 
-    asidCookie = response2fa.headers['set-cookie'].find((cookie: string) => /^asid/.test(cookie));
+      // extract ssid cookie
+      const ssidCookie = response.headers['set-cookie'].find((cookie: string) => /^ssid/.test(cookie));
 
-    if (response2fa.data.type === 'response') {
-      response = response2fa;
+      // extract tokens from the url
+      const tokens: any = parseUrl(response.data.response.parameters.uri);
+
+      tokens.entitlementsToken =
+        (await fetchEntitlements(tokens.accessToken)).data.entitlements_token;
+
+      // parse access token and extract puuid
+      const puuid = JSON.parse(Buffer.from(
+        tokens.accessToken.split('.')[1], 'base64').toString()).sub;
+
+      // fetch pas token - not required, instead we only want the region
+      // since we already fetched it let's save it, because why not
+      const pasTokenResponse = await fetchPas(tokens.accessToken, tokens.idToken);
+      tokens.pasToken = pasTokenResponse.data.token;
+
+      const region = pasTokenResponse.data.affinities.live;
+
+      const clientVersion = (await fetchValorantVersion()).data.data.riotClientVersion;
+
+      command.reply(`Verify Done`);
+      const headers = makeHeaders(tokens, clientVersion, clientPlatform);
+      console.log(`${puuid}, ${region}`);
+      console.log(headers);
+    } catch (error: any) {
+      command.reply(`There was an error while executing this command!, Please try again later`);
     }
-    // check response
-    if (typeof response2fa.data.error !== 'undefined') {
-      if (response2fa.data.error === 'multifactor_attempt_failed')
-        throw new ValReauthScriptError('too many 2fa requests');
-      if (response2fa.data.error === 'rate_limited')
-        throw new ValReauthScriptError('too many 2fa requests');
-      throw new ValReauthScriptError('unknown error', response2fa.data);
-    }
-
-    // extract ssid cookie
-    const ssidCookie = response.headers['set-cookie'].find((cookie: string) => /^ssid/.test(cookie));
-
-    // extract tokens from the url
-    const tokens: any = parseUrl(response.data.response.parameters.uri);
-
-    tokens.entitlementsToken =
-      (await fetchEntitlements(tokens.accessToken)).data.entitlements_token;
-
-    // parse access token and extract puuid
-    const puuid = JSON.parse(Buffer.from(
-      tokens.accessToken.split('.')[1], 'base64').toString()).sub;
-
-    // fetch pas token - not required, instead we only want the region
-    // since we already fetched it let's save it, because why not
-    const pasTokenResponse = await fetchPas(tokens.accessToken, tokens.idToken);
-    tokens.pasToken = pasTokenResponse.data.token;
-
-    const region = pasTokenResponse.data.affinities.live;
-
-    const clientVersion = (await fetchValorantVersion()).data.data.riotClientVersion;
-
-    command.reply(`Verify Done`);
-    const headers = makeHeaders(tokens, clientVersion, clientPlatform);
-    console.log(`${puuid}, ${region}`);
-    console.log(headers);
-}
+  }
 }
 
 const clientPlatform = {
