@@ -52,7 +52,7 @@ async function run() {
     }
 
     // Set database
-    await postgresConfig.initialize()
+    // await postgresConfig.initialize()
 
     // Log in with your bot token
     await bot.login(process.env.BOT_TOKEN);
