@@ -7,11 +7,12 @@ import {
 @Discord()
 export class Store {
   @Slash("store", { description: "show your Valorant Daily Store." })
-  slashLikeIt(command: CommandInteraction): void {
-    this.store(command);
+  slashLikeIt(interaction: CommandInteraction): void {
+    this.store(interaction);
   }
 
-  store(command: CommandInteraction | Message): void {
-    command.reply("I like it, Thanks");
+  store(interaction: CommandInteraction): void {
+    console.log(interaction.user.id);
+    interaction.reply("I like it, Thanks");
   }
 }

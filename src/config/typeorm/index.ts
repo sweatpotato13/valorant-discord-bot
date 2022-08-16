@@ -1,5 +1,5 @@
-import { DataSource } from "typeorm"
 import path from 'path';
+import { DataSource } from "typeorm"
 const __dirname = path.resolve();
 
 export const postgresConfig = new DataSource({

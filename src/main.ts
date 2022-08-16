@@ -5,7 +5,8 @@ import { dirname, importx } from "@discordx/importer";
 import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
-// import { postgresConfig } from "./config/typeorm/index";
+
+import { postgresConfig } from "./config/typeorm/index";
 
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
@@ -52,7 +53,7 @@ async function run() {
     }
 
     // Set database
-    // await postgresConfig.initialize()
+    await postgresConfig.initialize()
 
     // Log in with your bot token
     await bot.login(process.env.BOT_TOKEN);

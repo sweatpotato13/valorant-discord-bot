@@ -7,24 +7,42 @@ import {
 } from "discordx";
 import { Agent } from "https";
 
+import { postgresConfig } from "../config/typeorm";
+import { User } from "../entities";
+
 @Discord()
 export class Verify {
   @Slash("verify", { description: "validate two-factor authentication." })
   slashVerify(
     @SlashOption("code", { description: "2FA Authentication Code" })
     code: string,
-    @SlashOption("cookie", { description: "2FA Authentication Code" })
-    cookie: string,
+    @SlashOption("account", { description: "Riot Account" })
+    account: string,
     command: CommandInteraction): void {
-    this.verify(code, cookie, command);
+    command.deferReply();
+    this.verify(code, account, command);
   }
 
-  async verify(code: string, cookie: string, command: CommandInteraction | Message): Promise<void> {
+  async verify(code: string, account: string, command: CommandInteraction): Promise<void> {
     try {
-      let asidCookie;
       let response;
+      const userRepo = await postgresConfig.getRepository(User);
+      const users = await userRepo.find({
+        where: {
+          account: account
+        }
+      });
+      if (users.length === 0) {
+        command.editReply("Account not found");
+        return;
+      }
+      const user = users[0];
+      if (!user.cookie) {
+        command.editReply("Account not found");
+        return;
+      }
 
-      const response2fa: any = await send2faCode(cookie, code)
+      const response2fa: any = await send2faCode(user.cookie, code)
         .catch(err => {
           if (typeof err.response.data === 'undefined')
             throw new ValReauthScriptError('unknown error', err.response);
@@ -33,7 +51,7 @@ export class Verify {
           throw new ValReauthScriptError('unknown error', err.response.data);
         });
 
-      asidCookie = response2fa.headers['set-cookie'].find((cookie: string) => /^asid/.test(cookie));
+      const asidCookie = response2fa.headers['set-cookie'].find((cookie: string) => /^asid/.test(cookie));
 
       if (response2fa.data.type === 'response') {
         response = response2fa;
@@ -48,7 +66,7 @@ export class Verify {
       }
 
       // extract ssid cookie
-      const ssidCookie = response.headers['set-cookie'].find((cookie: string) => /^ssid/.test(cookie));
+      // const ssidCookie = response.headers['set-cookie'].find((cookie: string) => /^ssid/.test(cookie));
 
       // extract tokens from the url
       const tokens: any = parseUrl(response.data.response.parameters.uri);
@@ -65,16 +83,17 @@ export class Verify {
       const pasTokenResponse = await fetchPas(tokens.accessToken, tokens.idToken);
       tokens.pasToken = pasTokenResponse.data.token;
 
-      const region = pasTokenResponse.data.affinities.live;
+      // const region = pasTokenResponse.data.affinities.live;
 
       const clientVersion = (await fetchValorantVersion()).data.data.riotClientVersion;
 
-      command.reply(`Verify Done`);
+      command.editReply(`Verify Done`);
       const headers = makeHeaders(tokens, clientVersion, clientPlatform);
-      console.log(`${puuid}, ${region}`);
-      console.log(headers);
+      user.headers = JSON.stringify(headers);
+      user.puuid = puuid;
+      userRepo.save(user);
     } catch (error: any) {
-      command.reply(`There was an error while executing this command!, Please try again later`);
+      command.editReply(`There was an error while executing this command!, Please try again later`);
     }
   }
 }
