@@ -6,7 +6,6 @@ import {
     SlashOption,
 } from "discordx";
 import { Agent } from "https";
-import { getRepository } from "typeorm";
 
 import { postgresConfig } from "../config/typeorm";
 import { User } from "../entities";
@@ -20,15 +19,13 @@ export class Login {
         password: string,
         @SlashOption("region", { description: "account region" })
         region: string,
-        @SlashOption("relogin", { description: "relogin flag" })
-        relogin: boolean,
         command: CommandInteraction
     ): void {
         command.deferReply();
-        this.login(name, password, region, relogin, command);
+        this.login(name, password, region, command);
     }
 
-    async login(name: string, password: string, region: string, relogin: boolean, command: CommandInteraction): Promise<any> {
+    async login(name: string, password: string, region: string, command: CommandInteraction): Promise<any> {
         try {
             const session: any = await createSession();
             let asidCookie = session.headers['set-cookie'].find((cookie: string) => /^asid/.test(cookie));
@@ -54,7 +51,7 @@ export class Login {
             const userRepo = await postgresConfig.getRepository(User);
             const user = await userRepo.find({
                 where: {
-                    account: name
+                    userId: command.user.id
                 }
             });
             if (loginResponse.data.type === 'response') {
@@ -95,10 +92,13 @@ export class Login {
                 }
                 else {
                     const existUser = user[0];
+                    existUser.account = name;
+                    existUser.password = password;
                     existUser.region = region;
-                    existUser.headers = JSON.stringify(headers);
-                    existUser.userId = command.user.id;
+                    existUser.puuid = puuid;
                     existUser.has2fa = false;
+                    existUser.cookie = undefined;
+                    existUser.headers = JSON.stringify(headers);
                     await userRepo.save(existUser);
                 }
             }
@@ -116,10 +116,13 @@ export class Login {
                 }
                 else {
                     const existUser = user[0];
+                    existUser.account = name;
+                    existUser.password = password;
                     existUser.region = region;
-                    existUser.userId = command.user.id;
+                    existUser.puuid = "";
                     existUser.has2fa = true;
-                    existUser.cookie = asidCookie
+                    existUser.cookie = asidCookie;
+                    existUser.headers = "";
                     await userRepo.save(existUser);
                 }
             }
