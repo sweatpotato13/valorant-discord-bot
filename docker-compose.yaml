@@ -34,5 +34,3 @@ services:
             context: ./
         env_file: 
             - .env
-        ports:
-            - ${PORT}:8000

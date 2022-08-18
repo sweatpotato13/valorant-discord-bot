@@ -2,7 +2,7 @@
     "name": "valorant-discord-bot",
     "version": "1.0.0",
     "description": "valorant-discord-bot",
-    "main": "./build/src/index.js",
+    "main": "./dist/src/index.js",
     "type": "module",
     "repository": {
         "type": "git",
@@ -13,17 +13,17 @@
     },
     "homepage": "https://github.com/sweatpotato13/valorant-discord-bot",
     "files": [
-        "build"
+        "dist"
     ],
     "scripts": {
         "test": "jest",
         "test:cov": "jest --coverage",
-        "start": "node --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only src/main.ts",
+        "start": "node --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only dist/main.js",
         "start:dev": "nodemon --exec node --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only src/main.ts",
         "lint": "eslint \"{src,test}/**/*.ts\" --fix",
         "prettier": "prettier --write --config .prettierrc \"{src,test}/**/*.ts\"",
         "build": "tsc",
-        "prebuild": "rimraf ./build",
+        "prebuild": "rimraf ./dist",
         "release": "standard-version",
         "release:major": "standard-version -- --release-as major",
         "release:minor": "standard-version -- --release-as minor",
@@ -80,7 +80,7 @@
             "/dist/"
         ]
     },
-    "packageManager": "yarn@3.1.1",
+    "packageManager": "yarn@3.2.2",
     "dependencies": {
         "@discordx/importer": "^1.1.10",
         "@discordx/pagination": "^3.0.0",
