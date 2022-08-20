@@ -24,13 +24,13 @@ export class MMR {
         try {
             const regions = ["eu", "ap", "kr", "na"];
             if (!regions.includes(region)) {
-                interaction.reply(`region must be one of the following: {eu, ap, kr, na}`);
+                await interaction.reply(`region must be one of the following: {eu, ap, kr, na}`);
                 return;
             }
             const response = await getMmr(region, username, tag);
             const data = response.data;
             if (data.name === null) {
-                interaction.reply(`${username}#${tag} does not have MMR Data`);
+                await interaction.reply(`${username}#${tag} does not have MMR Data`);
                 return;
             }
 
@@ -45,11 +45,11 @@ export class MMR {
             )
             embed.setTimestamp()
 
-            interaction.channel?.send({ embeds: [embed] });
-            interaction.reply(`${data.data.name}#${data.data.tag}'s MMR Infomation`);
+            await interaction.channel?.send({ embeds: [embed] });
+            await interaction.reply(`${data.data.name}#${data.data.tag}'s MMR Infomation`);
         }
         catch (error: any) {
-            interaction.reply(`There was an error while executing this command!, Please try again later`);
+            await interaction.reply(`There was an error while executing this command!, Please try again later`);
         }
     }
 }

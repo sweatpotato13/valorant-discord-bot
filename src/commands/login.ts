@@ -77,7 +77,7 @@ export class Login {
 
                 const clientVersion = (await fetchValorantVersion()).data.data.riotClientVersion;
 
-                command.editReply(`Login Done`);
+                await command.editReply(`Login Done`);
                 const headers = makeHeaders(tokens, clientVersion, clientPlatform);
                 if (user.length === 0) {
                     const newUser = new User();
@@ -103,7 +103,7 @@ export class Login {
                 }
             }
             else {
-                command.editReply(`You need to verify your account first, Please input your 2fa code using /verify command`);
+                await command.editReply(`You need to verify your account first, Please input your 2fa code using /verify command`);
                 if (user.length === 0) {
                     const newUser = new User();
                     newUser.account = name;
@@ -128,6 +128,7 @@ export class Login {
             }
         } catch (error: any) {
             console.error(error);
+            await command.editReply(`There was an error while executing this command!, Please try again later`);
         }
     }
 }

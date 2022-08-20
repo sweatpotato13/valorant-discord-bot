@@ -31,12 +31,12 @@ export class Verify {
                 }
             });
             if (users.length === 0) {
-                command.editReply("Account not found");
+                await command.editReply("Account not found");
                 return;
             }
             const user = users[0];
             if (!user.cookie) {
-                command.editReply("Invaild token info, please login again");
+                await command.editReply("Invaild token info, please login again");
                 return;
             }
 
@@ -85,13 +85,13 @@ export class Verify {
 
             const clientVersion = (await fetchValorantVersion()).data.data.riotClientVersion;
 
-            command.editReply(`Verify Done`);
+            await command.editReply(`Verify Done`);
             const headers = makeHeaders(tokens, clientVersion, clientPlatform);
             user.headers = JSON.stringify(headers);
             user.puuid = puuid;
             userRepo.save(user);
         } catch (error: any) {
-            command.editReply(`There was an error while executing this command!, Please try again later`);
+            await command.editReply(`There was an error while executing this command!, Please try again later`);
         }
     }
 }

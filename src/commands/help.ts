@@ -21,10 +21,10 @@ export class Help {
             });
             embed.setTimestamp()
 
-            interaction.channel?.send({ embeds: [embed] });
-            interaction.reply("This is description for all slash command");
+            await interaction.channel?.send({ embeds: [embed] });
+            await interaction.reply("This is description for all slash command");
         } catch (error: any) {
-            interaction.reply(`There was an error while executing this command!, Please try again later`);
+            await interaction.reply(`There was an error while executing this command!, Please try again later`);
         }
     }
 }

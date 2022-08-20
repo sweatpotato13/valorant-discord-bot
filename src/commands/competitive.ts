@@ -72,7 +72,7 @@ export class Competitive {
         }
         catch (error: any) {
             console.log(error.message);
-            interaction.editReply(`There was an error while executing this command!, Please try again later`);
+            await interaction.editReply(`There was an error while executing this command!, Please try again later`);
         }
     }
 }

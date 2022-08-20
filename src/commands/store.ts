@@ -57,10 +57,10 @@ export class Store {
                 embeds.push(embed);
             }
             await interaction.channel?.send({ embeds: embeds });
-            interaction.reply("Store Offer");
+            await interaction.reply("Store Offer");
         } catch (error: any) {
             console.log(error.message);
-            interaction.reply(`There was an error while executing this command!, Please try again later`);
+            await interaction.reply(`There was an error while executing this command!, Please try again later`);
         }
     }
 }

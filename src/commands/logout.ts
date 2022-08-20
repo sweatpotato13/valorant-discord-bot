@@ -15,7 +15,7 @@ export class Logout {
     }
 
     async logout(command: CommandInteraction): Promise<void> {
-        command.reply("Logout Complete");
+        await command.reply("Logout Complete");
         const userRepo = await postgresConfig.getRepository(User);
         const users = await userRepo.find({
             where: {
