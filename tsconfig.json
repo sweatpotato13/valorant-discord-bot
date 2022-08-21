@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "outDir": "build",
+    "outDir": "dist",
     "rootDir": "src",
     "strict": true,
     "moduleResolution": "Node",
@@ -12,5 +12,5 @@
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["build", "node_modules"]
+  "exclude": ["dist", "node_modules"]
 }

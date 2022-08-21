@@ -1,12 +1,12 @@
 # Step 1
-FROM node:16-alpine AS builder
+FROM node:16 AS builder
 ENV NODE_ENV build
 WORKDIR /app
 COPY . /app
 RUN yarn && yarn build
 
 ### BASE
-FROM node:16-alpine AS base
+FROM node:16 AS base
 LABEL maintainer "Cute_Wisp <sweatpotato13@gmail.com>"
 # Set the working directory
 WORKDIR /app
@@ -22,4 +22,4 @@ COPY ./package.json .
 # Copy dependencies
 COPY --from=builder /app/node_modules ./node_modules
 
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start"]
