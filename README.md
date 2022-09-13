@@ -1,9 +1,9 @@
 <div id="top"></div>
 <p align="center">
-<img src=https://img.shields.io/github/stars/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
-<img src=https://img.shields.io/github/forks/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
-<img src=https://img.shields.io/github/issues/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
-<img src=https://img.shields.io/github/issues-pr/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
+<img src=https://img.shields.io/github/stars/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/forks/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/issues/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=informational />
+<img src=https://img.shields.io/github/issues-pr/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=informational />
 </p>
 <br />
 <!-- PROJECT LOGO -->
@@ -13,7 +13,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate">
+  <a href="https://github.com/sweatpotato13/valorant-discord-bot">
     <!-- <img src="images/logo.png" alt="Logo" width="80" height="80"> -->
   </a>
 
@@ -22,14 +22,14 @@
   <p align="center">
     boilerplate for nodejs
     <br />
-    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/sweatpotato13/valorant-discord-bot"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate">View Demo</a>
+    <a href="https://github.com/sweatpotato13/valorant-discord-bot">View Demo</a>
     ·
-    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate/issues">Report Bug</a>
+    <a href="https://github.com/sweatpotato13/valorant-discord-bot/issues">Report Bug</a>
     ·
-    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate/issues">Request Feature</a>
+    <a href="https://github.com/sweatpotato13/valorant-discord-bot/issues">Request Feature</a>
   </p>
 </div>
 
@@ -79,7 +79,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/sweatpotato13/nodejs-typescript-boilerplate.git
+   git clone https://github.com/sweatpotato13/valorant-discord-bot.git
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -105,6 +105,6 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/sweatpotato13/nodejs-typescript-boilerplate](https://github.com/sweatpotato13/nodejs-typescript-boilerplate)
+Project Link: [https://github.com/sweatpotato13/valorant-discord-bot](https://github.com/sweatpotato13/valorant-discord-bot)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
