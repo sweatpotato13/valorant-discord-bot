@@ -82,7 +82,6 @@ export class Login {
                 if (user.length === 0) {
                     const newUser = new User();
                     newUser.account = name;
-                    newUser.password = password;
                     newUser.region = region;
                     newUser.headers = JSON.stringify(headers);
                     newUser.userId = command.user.id;
@@ -93,7 +92,6 @@ export class Login {
                 else {
                     const existUser = user[0];
                     existUser.account = name;
-                    existUser.password = password;
                     existUser.region = region;
                     existUser.puuid = puuid;
                     existUser.has2fa = false;
@@ -107,7 +105,6 @@ export class Login {
                 if (user.length === 0) {
                     const newUser = new User();
                     newUser.account = name;
-                    newUser.password = password;
                     newUser.region = region;
                     newUser.userId = command.user.id;
                     newUser.has2fa = true;
@@ -117,7 +114,6 @@ export class Login {
                 else {
                     const existUser = user[0];
                     existUser.account = name;
-                    existUser.password = password;
                     existUser.region = region;
                     existUser.puuid = "";
                     existUser.has2fa = true;

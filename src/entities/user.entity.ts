@@ -11,9 +11,6 @@ export class User {
     @Column("text", { name: "account" })
     account!: string;
 
-    @Column("text", { name: "password" })
-    password!: string;
-
     @Column("text", { name: "region" })
     region!: string;
 
