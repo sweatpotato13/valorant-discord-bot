@@ -25,12 +25,12 @@ export class Wallet {
                 }
             });
             if (users.length === 0) {
-                await interaction.reply("Account not found");
+                interaction.reply({ content: "Account not found", ephemeral: true });
                 return;
             }
             const user = users[0];
             if (!user.headers || !user.puuid) {
-                await interaction.reply("Invaild token info, please login again");
+                interaction.reply({ content: "Invaild token info, please login again", ephemeral: true });
                 return;
             }
             const headers = JSON.parse(user.headers);
@@ -45,11 +45,10 @@ export class Wallet {
             )
             embed.setTimestamp()
 
-            await interaction.channel?.send({ embeds: [embed] });
-            await interaction.reply(`Balance`);
+            await interaction.reply({ embeds: [embed], content: "Balance" });
         } catch (error: any) {
             console.log(error.message);
-            await interaction.reply(`There was an error while executing this command!, Please try again later`);
+            await interaction.reply({ content: `There was an error while executing this command!, Please try again later`, ephemeral: true });
         }
     }
 }

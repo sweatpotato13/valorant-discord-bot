@@ -17,7 +17,7 @@ export class Verify {
         @SlashOption("code", { description: "2FA Authentication Code" })
         code: string,
         command: CommandInteraction): void {
-        command.deferReply();
+        command.deferReply({ ephemeral: true });
         this.verify(code, command);
     }
 

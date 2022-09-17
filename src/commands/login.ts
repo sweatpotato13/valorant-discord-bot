@@ -21,7 +21,7 @@ export class Login {
         region: string,
         command: CommandInteraction
     ): void {
-        command.deferReply();
+        command.deferReply({ ephemeral: true });
         this.login(name, password, region, command);
     }
 

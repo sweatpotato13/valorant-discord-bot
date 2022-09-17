@@ -25,7 +25,7 @@ export class Nightmarket {
   async nightmarket(region: string, puuid: string, authorization: string, entitlements: string, interaction: CommandInteraction): Promise<void> {
     const response = await getNightmarket(region, puuid, authorization, entitlements);
     const data = response.data;
-    await interaction.reply("Not Implemented");
+    await interaction.reply({ content: "Not Implemented", ephemeral: true });
   }
 }
 
