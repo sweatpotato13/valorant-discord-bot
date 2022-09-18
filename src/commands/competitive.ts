@@ -67,8 +67,7 @@ export class Competitive {
                 embeds.push(embed);
             }
 
-            await interaction.channel?.send({ embeds: embeds });
-            await interaction.editReply(`${username}#${tag}'s recent matches infomation`);
+            await interaction.reply({ embeds: embeds, content: `${username}#${tag}'s recent matches infomation` });
         }
         catch (error: any) {
             console.log(error.message);

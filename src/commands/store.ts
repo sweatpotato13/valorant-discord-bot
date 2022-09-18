@@ -25,12 +25,12 @@ export class Store {
                 }
             });
             if (users.length === 0) {
-                interaction.reply("Account not found");
+                interaction.reply({ content: "Account not found", ephemeral: true });
                 return;
             }
             const user = users[0];
             if (!user.headers || !user.puuid) {
-                interaction.reply("Invaild token info, please login again");
+                interaction.reply({ content: "Invaild token info, please login again", ephemeral: true });
                 return;
             }
             const headers = JSON.parse(user.headers);
@@ -56,11 +56,10 @@ export class Store {
                 )
                 embeds.push(embed);
             }
-            await interaction.channel?.send({ embeds: embeds });
-            await interaction.reply("Store Offer");
+            await interaction.reply({ embeds: embeds, content: "Store Offer" });
         } catch (error: any) {
             console.log(error.message);
-            await interaction.reply(`There was an error while executing this command!, Please try again later`);
+            await interaction.reply({ content: `There was an error while executing this command!, Please try again later`, ephemeral: true });
         }
     }
 }

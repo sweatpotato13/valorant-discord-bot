@@ -21,8 +21,7 @@ export class Help {
             });
             embed.setTimestamp()
 
-            await interaction.channel?.send({ embeds: [embed] });
-            await interaction.reply("This is description for all slash command");
+            await interaction.reply({ embeds: [embed], content: "This is description for all slash command" });
         } catch (error: any) {
             await interaction.reply(`There was an error while executing this command!, Please try again later`);
         }
