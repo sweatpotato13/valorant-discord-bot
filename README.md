@@ -1,9 +1,9 @@
 <div id="top"></div>
 <p align="center">
-<img src=https://img.shields.io/github/stars/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=blue />
-<img src=https://img.shields.io/github/forks/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=blue />
-<img src=https://img.shields.io/github/issues/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=informational />
-<img src=https://img.shields.io/github/issues-pr/sweatpotato13/valorant-discord-bot?style=for-the-badge&logo=appveyor&color=informational />
+<img src=https://img.shields.io/github/stars/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/forks/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/issues/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
+<img src=https://img.shields.io/github/issues-pr/sweatpotato13/nodejs-typescript-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
 </p>
 <br />
 <!-- PROJECT LOGO -->
@@ -13,7 +13,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/sweatpotato13/valorant-discord-bot">
+  <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate">
     <!-- <img src="images/logo.png" alt="Logo" width="80" height="80"> -->
   </a>
 
@@ -22,14 +22,14 @@
   <p align="center">
     boilerplate for nodejs
     <br />
-    <a href="https://github.com/sweatpotato13/valorant-discord-bot"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/sweatpotato13/valorant-discord-bot">View Demo</a>
+    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate">View Demo</a>
     ·
-    <a href="https://github.com/sweatpotato13/valorant-discord-bot/issues">Report Bug</a>
+    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate/issues">Report Bug</a>
     ·
-    <a href="https://github.com/sweatpotato13/valorant-discord-bot/issues">Request Feature</a>
+    <a href="https://github.com/sweatpotato13/nodejs-typescript-boilerplate/issues">Request Feature</a>
   </p>
 </div>
 
@@ -47,16 +47,18 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li>
+      <a href="#add-bot-to-your-server">Add Bot to your server</a>
+      <ul>
+        <li><a href="#self-hosting">Self Hosting</a></li>
+        <li><a href="#add-existing-bot">Add Existing bot</a></li>
+      </ul>
+    </li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -64,6 +66,7 @@
 
 ### Built With
 
+* [Node.js](https://nodejs.org)
 * [docker](https://www.docker.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -79,8 +82,28 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/sweatpotato13/valorant-discord-bot.git
+   git clone https://github.com/sweatpotato13/nodejs-typescript-boilerplate.git
    ```
+
+## Add Bot to your server
+
+### Self Hosting
+
+1. Fill out .env file include Bot token from [Discord Developer Portal](https://discord.com/developers/applications)
+
+2. Run the following command to start the bot
+   ```sh
+   yarn start
+   ```
+
+3. You can use Docker instead of yarn
+   ```sh
+   docker-compose up
+   ```
+
+### Add Existing bot
+
+1. Use this link [link](https://discord.com/oauth2/authorize?client_id=1005654405065998336&scope=bot&permissions=8) to add bot
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -105,6 +128,6 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/sweatpotato13/valorant-discord-bot](https://github.com/sweatpotato13/valorant-discord-bot)
+Project Link: [https://github.com/sweatpotato13/nodejs-typescript-boilerplate](https://github.com/sweatpotato13/nodejs-typescript-boilerplate)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
