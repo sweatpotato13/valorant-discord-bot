@@ -156,7 +156,7 @@ const agent = new Agent({
     ciphers: ciphers.join(':'),
     honorCipherOrder: true,
     minVersion: 'TLSv1.2'
-});
+})
 
 async function createSession(ssidCookie?: string) {
     return await axios({
@@ -164,7 +164,7 @@ async function createSession(ssidCookie?: string) {
         method: 'POST',
         headers: {
             ...typeof ssidCookie === 'undefined' ? '' : { Cookie: ssidCookie },
-            'User-Agent': 'RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)'
+            'User-Agent': 'RiotClient/58.0.0.4640299.4552318 rso-auth (Windows;10;;Professional, x64)'
         },
         data: {
             client_id: "play-valorant-web-prod",
@@ -184,7 +184,7 @@ async function login(cookie: string, username: string, password: string) {
         method: 'PUT',
         headers: {
             Cookie: cookie,
-            'User-Agent': 'RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)'
+            'User-Agent': 'RiotClient/58.0.0.4640299.4552318 rso-auth (Windows;10;;Professional, x64)'
         },
         data: {
             type: 'auth',

@@ -132,7 +132,7 @@ async function send2faCode(cookie: string, code: string, rememberDevice = true) 
         method: 'PUT',
         headers: {
             Cookie: cookie,
-            'User-Agent': 'RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)'
+            'User-Agent': 'RiotClient/58.0.0.4640299.4552318 rso-auth (Windows;10;;Professional, x64)'
         },
         data: {
             type: 'multifactor',
