@@ -6,7 +6,7 @@ COPY . /app
 RUN yarn && yarn build
 
 ### BASE
-FROM node:16 AS base
+FROM node:16-alpine AS base
 LABEL maintainer "Cute_Wisp <sweatpotato13@gmail.com>"
 # Set the working directory
 WORKDIR /app
