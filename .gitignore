@@ -47,3 +47,4 @@ lerna-debug.log*
 /build
 
 run.sh
+postgres-data
